@@ -17,6 +17,26 @@ The MVP accepts a YouTube URL from an iOS Shortcut, Telegram bot, or manual CLI 
 
 Out of scope for MVP: user accounts, OAuth, billing, public sharing, Notion sync, Google Drive sync, Obsidian sync, audio downloads, and Whisper transcription.
 
+## How It Works
+
+1. Send the app a YouTube URL through Telegram, an iOS Shortcut, or the manual command-line script.
+2. The backend validates the URL and creates a local processing job.
+3. The worker retrieves available public captions or auto-generated transcript text.
+4. The transcript is cleaned, chunked, and analyzed with the Anthropic Claude API.
+5. The app saves a Markdown report under `data/reports`, stores job metadata in SQLite, and can send the finished report back through Telegram.
+
+## Ways To Use It
+
+- Manual local run: process one YouTube URL from Terminal and save the report locally.
+- Telegram bot: send a YouTube URL to your own bot and receive a queued/completed message plus the Markdown report.
+- iOS Shortcut: share a YouTube URL from your phone to your Mac-hosted local API.
+
+For a first install, start with the manual command-line flow. Once that works, add Telegram or iOS Shortcut support.
+
+## YouTube Transcript Access Note
+
+This project uses unofficial public transcript retrieval for available YouTube captions and auto-generated transcripts. It is intended for personal/local automation. YouTube may change, restrict, rate-limit, or block transcript access at any time. For production, commercial, or public multi-user use, review YouTube Terms and consider official APIs, user-authorized transcript sources, or user-provided transcript files.
+
 ## Local Setup
 
 Create the virtual environment, install dependencies, and create your local `.env`:
